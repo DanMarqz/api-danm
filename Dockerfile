@@ -1,9 +1,7 @@
-FROM python:3.11-alpine
+FROM python:3.11-alpine3.19
 WORKDIR /app
 
 COPY ./requirements.txt /code/requirements.txt
-ARG FIREBASE_DB_URL
-ENV FIREBASE_DB_URL=$FIREBASE_DB_URL
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY . /app
