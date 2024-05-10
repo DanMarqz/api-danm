@@ -34,7 +34,12 @@ jobs:
         run: |
           docker build -t api-danm .
 
+      - name: Log into Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.USER_DOCKER }}
+          password: ${{ secrets.PASSWORD_DOCKER }}
+
       - name: Empujar contenedor a Docker Hub
         run: |
-          docker login ${{ secrets.USER_DOCKER }}:${{ secrets.PASSWORD_DOCKER }}
           docker push api-danm
