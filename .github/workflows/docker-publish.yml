@@ -34,9 +34,14 @@ jobs:
 
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
+        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Convert branch name to lowercase
+          flavor: |
+            latest=${{ github.ref == 'refs/heads/main' }}
+            suffix=${{ github.ref }}
+            type=raw,value=${{ github.ref == 'refs/heads/main' && 'latest' || format('branch-{0}', github.ref_name) }},prefix=branch-
 
       - name: Build and push Docker image
         id: build-and-push
