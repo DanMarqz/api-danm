@@ -1,8 +1,10 @@
 name: Docker
 
 on:
+  pull_request:
+    branches: [ "main", "develop" ]
   push:
-    branches: [ develop ]
+    branches: [ 'v*.*.*' ]
 
 env:
   REGISTRY: docker.io
@@ -20,12 +22,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install cosign
-        if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@6e04d228eb30da1757ee4e1dd75a0ec73a653e06
-        with:
-          cosign-release: 'v2.1.1'
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226
 
@@ -38,14 +34,9 @@ jobs:
 
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934
+        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # Convert branch name to lowercase
-          flavor: |
-            latest=${{ github.ref == 'refs/heads/main' }}
-            suffix=${{ github.ref }}
-            type=raw,value=${{ github.ref == 'refs/heads/main' && 'latest' || format('branch-{0}', github.ref_name) }},prefix=branch-
 
       - name: Build and push Docker image
         id: build-and-push
@@ -57,10 +48,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
