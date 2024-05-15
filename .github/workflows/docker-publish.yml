@@ -38,7 +38,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-        - name: Defining enviroments
+      - name: Defining enviroments
         run: |-
           touch .env
           echo CREDENTIALS_PATH=${{ vars.CREDENTIALS_PATH }} >> .env
