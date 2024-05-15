@@ -1,7 +1,11 @@
 ### Danm API
 _Una API para un backend de un perfil_
 
+Last build:
+[![](https://github.com/DanMarqz/api-danm/actions/workflows/docker-publish.yml/badge.svg)]()
+
 [![](https://img.shields.io/badge/Live_preview-8A2BE2?color=darkgreen)]()
+
 
 Para ejecutar este proyecto es necesario:
 

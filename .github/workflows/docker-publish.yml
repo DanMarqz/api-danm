@@ -1,10 +1,10 @@
-name: Docker
+name: Docker Publish
 
 on:
   pull_request:
     branches: [ "main", "develop" ]
-  push:
-    branches: [ 'v*.*.*' ]
+  # push:
+  #   branches: [ 'v*.*.*' ]
 
 env:
   REGISTRY: docker.io
@@ -37,6 +37,14 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Defining enviroments
+        run: |-
+          touch .env
+          echo CREDENTIALS_PATH=${{ vars.CREDENTIALS_PATH }} >> .env
+          echo PREFIX_VERSION=${{ vars.PREFIX_VERSION }} >> .env
+          echo FIREBASE_DB_URL=${{ secrets.FIREBASE_DB_URL }} >> .env
+          echo ID_WORKER=${{ secrets.ID_WORKER }} >> .env
 
       - name: Build and push Docker image
         id: build-and-push
