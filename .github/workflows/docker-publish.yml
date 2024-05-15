@@ -3,8 +3,8 @@ name: Docker Publish
 on:
   pull_request:
     branches: [ "main", "develop" ]
-  push:
-    branches: [ 'v*.*.*' ]
+  # push:
+  #   branches: [ 'v*.*.*' ]
 
 env:
   REGISTRY: docker.io
