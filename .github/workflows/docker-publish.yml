@@ -38,6 +38,14 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+        - name: Defining enviroments
+        run: |-
+          touch .env
+          echo CREDENTIALS_PATH=${{ vars.CREDENTIALS_PATH }} >> .env
+          echo PREFIX_VERSION=${{ vars.PREFIX_VERSION }} >> .env
+          echo FIREBASE_DB_URL=${{ secrets.FIREBASE_DB_URL }} >> .env
+          echo ID_WORKER=${{ secrets.ID_WORKER }} >> .env
+
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
