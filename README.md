@@ -1,8 +1,10 @@
 ### Danm API
 _Una API para un backend de un perfil_
 
-[![](https://img.shields.io/badge/Live_preview-8A2BE2?color=darkgreen)]()
+Last build:
+[![](https://github.com/DanMarqz/api-danm/actions/workflows/docker-publish.yml/badge.svg)]()
 
+[![](https://img.shields.io/badge/Live_preview-8A2BE2?color=darkgreen)]()
 Para ejecutar este proyecto es necesario:
 
 * Crear un archivo .env para agregar la variable de entorno "MONGO_URI" que es el string de conexion para la base de datos de Mongo
